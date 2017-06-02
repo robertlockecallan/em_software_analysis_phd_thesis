@@ -1,0 +1,30 @@
+% This file was created by matlab2tikz v0.4.7 running on MATLAB 8.2.
+% Copyright (c) 2008--2014, Nico Schlömer <nico.schloemer@gmail.com>
+% All rights reserved.
+% Minimal pgfplots version: 1.3
+% 
+% The latest updates can be retrieved from
+%   http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz
+% where you can also make suggestions and rate matlab2tikz.
+% 
+\begin{tikzpicture}
+\pgfplotsset{ticks=none}
+
+
+
+
+\begin{axis}[%
+width=3.57630208333333in,
+height=1.15981086687853in,
+scale only axis,
+xmin=205,
+xmax=1205,
+xlabel style={align=center,font=\footnotesize},
+ymin=0,
+ymax=0.05,
+anchor=above north west
+]
+\addplot [color=blue,solid,forget plot]
+  table[row sep=crcr]{am_details-5.tsv};
+\end{axis}
+\end{tikzpicture}%

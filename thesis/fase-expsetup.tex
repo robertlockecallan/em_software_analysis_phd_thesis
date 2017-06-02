@@ -1,0 +1,29 @@
+
+We evaluate the effectiveness of our FASE methodology by applying it to the laptop and desktop systems in Table~\ref{pc_specs}. Unless otherwise indicated, the EM emanations were received with a magnetic loop antenna (AOR LA400) from a distance of 30 cm and a spectrum analyzer (Agilent MXA N9020A) was used to record the spectra of the received signals. This setup was used because it allowed us to capture emanations from the entire system across a wide range of frequencies with little manual effort. We note, however, that attacks exploiting a particular set of carrier signals could likely be carried out at larger distances using more directive antennae optimized for higher gain across a narrower frequency band. 
+
+We performed three measurement campaigns, each across a different frequency range and with different FASE parameters, as shown in Table~\ref{meas_params}. Parameters $f_{alt_1}$ and $f_\Delta$ were chosen to ensure sufficient separation between side-band and carrier, and between the peaks generated at $f_{alt_1}$, $f_{alt_2}$, etc. Aside from this consideration, the choice of $f_{alt_1}$ and $f_\Delta$ is arbitrary, with the caveat that while using only one choice of $f_{alt_1}$ and $f_\Delta$ is almost always sufficient to detect all carriers, measuring with multiple choices of $f_{alt_1}$ and $f_\Delta$ increases the confidence that all carriers have been detected. For example, a carrier might be missed if FASE is only run with one choice of $f_{alt_1}$ and $f_\Delta$ \textit{and} a carrier is weak \textit{and} strong signals happen to occur at the side-bands. We found that five alternation frequencies (i.e. $f_{alt_1}$ through $f_{alt_1}+4f_\Delta$) are sufficient to detect almost any carrier even in the presence of unrelated signals from other system activity, noise, and radio broadcasts. These experiments cover the entire AM radio spectrum, and were performed without shielding in a major metropolitan area with hundreds of radio stations nearby.
+
+\begin{table}[htb]%
+  \small%
+  \centering%
+    \begin{tabular}{cccc}%
+    \toprule
+    \textbf{Frequency Range(MHz)} & \textbf{$f_{res}$(Hz)} & \textbf{$f_{alt_1}$(kHz)} & \textbf{$f_\Delta$(kHz)} \\
+    \midrule
+    0 to 4 & 50 & 43.3 & 0.5 \\
+    0 to 120 & 500 & 43.3 & 5.0 \\
+    0 to 1200 & 500 & 1800 & 100 \\
+    \bottomrule
+    \end{tabular}%
+  \caption{FASE measurement parameters.}%
+  \label{meas_params}%
+\end{table}%
+
+
+The $f_{res}$ parameter is the resolution of spectrum sampling. For example, our 0-4MHz measurements used $f_{res}$ = 50Hz, so each recorded spectrum has $4\rm{MHz}/50\rm{Hz} = 80,000$ data points (frequencies). Each spectrum was measured 4 times over several hours and averaged, and we used the heuristic function in Section~\ref{sec:fase-automated} to detect the 1st, 2nd, 3rd, 4th and 5th positive and negative harmonics of the alternation activity. We then visually inspected the heuristic function's output to identify peaks (potential carriers). \cite{palshikar_2009} and \cite{alfassi_2009} present algorithms detect peaks in the output of the heuristic function, but we found that the heuristic function's output had strong spikes for carriers modulated by system activity, so the task of visually inspecting the output to identify potential carriers was relatively straightforward and quick.
+
+A variety of activities were used as activities A and B in the alternation loop -- integer multiplication, division, addition, subtraction, as well as load and store to all levels of the cache hierarchy. The results we show focus on only three A/B alternations. The first alternates between a load from main memory (LLC miss) and a load from L1 cache (L1 hit), which we abbreviate as LDM/LDL1. This alternation is useful in exposing modulated carriers related to memory activity. We tried other A/B activity pairs that included main-memory accesses and on-chip activity, e.g. LDM/ADD, LDM/DIV, etc. and also pairings that used STM (LLC write-back activity) instead of LDM. We found that they have some variations in the exact shape and strength of the side-band signals, but applying FASE to them exposes the same carriers as LDM/LDL1.
+
+The second A/B alternation whose results we show alternates between L2 hits and L1 hits (LDL2/LDL1). This alternation is useful in exposing carriers related to variations in activity on the processor chip. We tried numerous other pairings of on-chip activities, e.g. LDL1/ADD, LDL2/DIV, etc. and found that they expose the same carriers through FASE, although they vary in the exact shape and strength of the side-band signals.
+
+Use of LDM, LDL2 and LDL1 is also methodologically convenient in that it uses the exact same micro-benchmark code for all three activities. They differ only in the \texttt{mask} values in Figure~\ref{fase_pseudocode}, which gives us excellent confidence that any observed modulation is due to differences between LDM, LDL1, and LDL2 activity and not the other activity (address computation, looping, etc.) in the alternation loop. Finally, note that the microbenchmarks produce a nearly 100\% load, so frequency scaling does not affect our experiments much. However, the effect of frequency scaling wasn't of interest for these measurements and so we disabled dynamic frequency scaling whenever possible.

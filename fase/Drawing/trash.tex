@@ -1,0 +1,58 @@
+\definecolor{mycolor1}{rgb}{1,0.6,0.6}%
+\definecolor{mycolor2}{rgb}{0.09804,0.10980,0.84314}%
+%
+%\selectcolormodel{gray}
+\begin{tikzpicture}[
+trans/.style={thick,<->,shorten >=2pt,shorten <=2pt,>=stealth}
+]
+
+\node[align=center] at (1.9,8.9) {Activity \\ at $f_{alt}$};
+\node[align=center] at (1.9,7.7) {Average \\ Current};
+\node[align=center] at (2,5.7) {Clock \\ at $f_{c}$};
+\node[align=center] at (1.8,3.4) {Clock at $f_c$\\ Modulated by \\ $f_{alt}$ Activity};
+\node[align=center] at (7,2) {Envelope creates signals at $f_c \pm f_{alt}$};
+\node[align=center] at (7,9.2) {1 msec (1 kHz)};
+\draw[trans] (8.4,8.9) -- (5.6,8.9) node[right,left] {};
+\begin{axis}[%
+width=4.52083333333333in,
+height=3.565625in,
+scale only axis,
+xmin=-7,
+xmax=20,
+ymin=-3.5,
+ymax=1.5,
+hide axis
+]
+%/*
+
+%\node[align=center] at (axis cs:9.4248,0.2) {$f_{alt} = \frac{1}{T_{alt}}$};
+%\draw[trans] (6.2832,.05) -- (12.5664,.05) node[right,left] {};
+
+%*/
+\addplot [color=mycolor1,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-1.tsv};
+\addplot [color=mycolor2,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-2.tsv};
+\addplot [color=mycolor1,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-3.tsv};
+\addplot [color=mycolor2,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-4.tsv};
+\addplot [color=mycolor1,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-5.tsv};
+\addplot [color=mycolor2,solid,line width=1.5pt,forget plot]
+  table[row sep=crcr]{alt_freq-6.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-7.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-8.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-9.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-10.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-11.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-12.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-13.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-14.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-15.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-16.tsv};
+\addplot[const plot,color=mycolor1,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-17.tsv};
+\addplot[const plot,color=mycolor2,solid,line width=1.5pt] plot table[row sep=crcr] {alt_freq-18.tsv};
+\addplot[const plot,color=black,dashed,line width=1.8pt] plot table[row sep=crcr] {alt_freq-19.tsv};
+\end{axis}
+\end{tikzpicture}%

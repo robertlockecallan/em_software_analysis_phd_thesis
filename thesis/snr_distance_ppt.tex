@@ -1,0 +1,79 @@
+% This file was created by matlab2tikz.
+%
+%The latest updates can be retrieved from
+%  http://www.mathworks.com/matlabcentral/fileexchange/22022-matlab2tikz-matlab2tikz
+%where you can also make suggestions and rate matlab2tikz.
+%
+\usetikzlibrary{backgrounds}
+\definecolor{mycolor1}{rgb}{1.00000,0.00000,1.00000}%
+\definecolor{mycolor2}{rgb}{1.00000,1.00000,0.00000}%
+%
+\begin{tikzpicture}[framed]
+
+\begin{axis}[%
+width=5.341in,
+height=2.563in,
+at={(0.896in,0.444in)},
+scale only axis,
+xmin=0.6,
+xmax=3,
+xlabel={Distance (m)},
+ylabel={Volts},
+ymin=4.77583043003028e-06,
+ymax=0.000127300852438018,
+%axis background/.style={fill=white},
+%every outer x axis line/.append style={white!15!black},
+axis x line*=bottom,
+axis y line*=left,
+legend style={at={(1,1.1)}, legend cell align=left,align=left,draw=white!15!black}
+]
+\addplot [color=red,solid]
+  table[]{snr_distance-1.tsv};
+\addlegendentry{Harmonic 28 P};
+
+\addplot [color=red,dashed]
+  table[]{snr_distance-2.tsv};
+\addlegendentry{Harmonic 28 N};
+
+\addplot [color=green,solid]
+  table[]{snr_distance-3.tsv};
+\addlegendentry{Harmonic 29 P};
+
+\addplot [color=green,dashed]
+  table[]{snr_distance-4.tsv};
+\addlegendentry{Harmonic 29 N};
+
+\addplot [color=blue,solid]
+  table[]{snr_distance-5.tsv};
+\addlegendentry{Harmonic 30 P};
+
+\addplot [color=blue,dashed]
+  table[]{snr_distance-6.tsv};
+\addlegendentry{Harmonic 30 N};
+
+\addplot [color=black,solid]
+  table[]{snr_distance-7.tsv};
+\addlegendentry{Harmonic 31 P};
+
+\addplot [color=black,dashed]
+  table[]{snr_distance-8.tsv};
+\addlegendentry{Harmonic 31 N};
+
+\addplot [color=mycolor1,solid]
+  table[]{snr_distance-9.tsv};
+\addlegendentry{Harmonic 32 P};
+
+\addplot [color=mycolor1,dashed]
+  table[]{snr_distance-10.tsv};
+\addlegendentry{Harmonic 32 N};
+
+\addplot [color=mycolor2,solid]
+  table[]{snr_distance-11.tsv};
+\addlegendentry{Harmonic 33 P};
+
+\addplot [color=mycolor2,dashed]
+  table[]{snr_distance-12.tsv};
+\addlegendentry{Harmonic 33 N};
+
+\end{axis}
+\end{tikzpicture}%

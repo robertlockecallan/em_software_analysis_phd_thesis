@@ -1,0 +1,289 @@
+
+\documentclass[12pt]{gatech-thesis}
+\usepackage{cite}
+\usepackage{amsmath,amssymb,latexsym,epsfig,subfigure}
+\usepackage{verbatim}
+\usepackage{listings}
+\usepackage{tabu}
+\usepackage{booktabs}
+\usepackage{floatrow}
+\floatsetup[table]{capposition=top}
+\usepackage{xspace}
+\usepackage{hhline}
+\newcommand*{\eg}{e.g.\@\xspace}
+\newcommand*{\ie}{i.e.\@\xspace}
+
+\makeatletter
+\newcommand*{\etc}{%
+  \@ifnextchar{.}%
+              {etc}%
+              {etc.\@\xspace}%
+}
+\makeatother
+
+%\thesisproposaltrue
+
+\title{Analyzing Software using Unintentional Electromagnetic Emanations from Computing Devices} %%  \protect\\ instead of \\
+
+\author{Robert L. Callan}
+\department{School of Electrical and Computer Engineering}
+
+%\principaladvisor{Professor Alenka Zajic}
+\committeechair{Professor Alenka Zajic}
+\firstreader{Professor Milos Prvulovic, Co-Advisor}[School of Computer Science, College of Computing]
+\secondreader{Professor Moinuddin K. Qureshi}
+\thirdreader{Professor Tushar Krishna} 
+\fourthreader{Professor Alessandro Orso}[School of Computer Science, College of Computing]
+\fifthreader{Professor Raheem Beyah}
+
+%\setcounter{secnumdepth}{2}
+\degree{Doctor of Philosophy}
+
+%% Set \listmajortrue below, then uncomment and set this for
+%% interdisciplinary PhD programs so that the title page says
+%% ``[degree] in [major]'' and puts the department at the bottom of
+%% the page, rather than saying ``[degree] in the [department]''
+
+%% \major{Algorithms, Combinatorics, and Optimization} 
+
+\copyrightyear{2017}
+\copyrighttrue
+\submitdate{December 2016} % Must be the month and year of graduation,
+                         % not thesis approval! As of 2010, this means
+                         % this text must be May, August, or December
+                         % followed by the year.
+
+%% The date the last committee member signs the thesis form. Printed
+%% on the approval page.
+\approveddate{November 8, 2016}
+
+\bibfiles{thesis}
+
+%% The following are the defaults
+%%    \titlepagetrue
+%%    \signaturepagetrue
+%%    \copyrightfalse
+%%    \figurespagetrue
+%%    \tablespagetrue
+%%    \contentspagetrue
+%%    \dedicationheadingfalse
+%%    \bibpagetrue
+%%    \thesisproposalfalse
+%%    \strictmarginstrue
+%%    \dissertationfalse
+%%    \listmajorfalse
+%%    \multivolumefalse
+
+\begin{document}
+\bibliographystyle{gatech-thesis}
+%%
+
+
+\newcommand{\SAVATfull}[0] {Signal Available to Attacker\xspace}
+\newcommand{\SAVAT}[0] {SAVAT\xspace}
+\newcommand{\zop}{\textsc{ZOP}\xspace}
+
+\begin{preliminary}
+\begin{dedication}
+  I dedicate this thesis to my parents Bob and Kathee Callan, to my brother Casey Callan, and to my girlfriend Christine Godwin.
+
+  I would have quit long ago without their patience, love, and support. 
+\end{dedication}
+
+
+\begin{acknowledgements}
+  I would like to thank my advisors, Dr. Alenka Zajic and Dr. Milos Prvulovic, for the opportunity to work on this interesting topic. Their time, ideas, feedback, and support made the completion of this thesis possible.
+
+  I also would like to thank my thesis committee:  Dr. Alessandro Orso, Dr. Moinuddin K. Qureshi, Dr. Tushar Krishna, and Dr. Raheem Beyah. Their time and inputs were essential in improving this thesis.
+\end{acknowledgements}
+\contents
+
+
+%\begin{preface}
+%\end{preface}
+
+
+% print table of contents, figures and tables here.
+% if you need a "List of Symbols or Abbreviations" look into
+% gatech-thesis-gloss.sty.
+
+
+
+
+\begin{summary}
+
+This thesis develops methods to identify, quantify, and use information leaked in Electromagnetic (EM) emanations from a broad range of computing devices in a general (\ie not application specific) way by synthesizing techniques from the fields of electromagnetics, computer architecture, and software engineering. Computers emit EM radiation (emanations) as a side effect of the voltage and current variations required to perform computation. Electromagnetic Compatibility (EMC) research does systematically characterize and analyze such EM emanations, but EMC testing only identifies and quantifies EM emanations for the purpose of designing and testing computing systems to ensure emissions don't interfere with communications signals or other devices. Therefore EMC ignores any information embedded in the emissions and treats all emanations as unwanted ``noise'' whose level must be minimized. Until recently, the study of information embedded (\ie leaked) in this EM noise was limited to the leakage of sensitive information for security applications such as cryptoanalysis. Cryptography researchers have developed techniques that analyze EM emanations to extract secret cryptographic keys from computing devices as the devices perform encryption operations. These techniques generally are ad-hoc and application specific, as the goal is to demonstrate and fix weaknesses in existing cryptographic hardware and software implementations. These weaknesses can often be found without thoroughly understanding their electromagnetic and computer architectural causes. 
+
+Aside from cryptoanalysis, EM emanations provide information about a system's operation that may be useful in other applications. A number of emerging applications make use of EM emanations to extract new types of information from computing devices. For example, EM emanations can be used to determine or verify the execution path through a program for program profiling, debugging, and malware detection. These new applications require a more general approach that can be rapidly and automatically applied to numerous and diverse types of programs and computing devices. This approach requires automatic and systematic identification, quantification, and analysis of information embedded in EM emanations. Toward this goal, our research has developed (1) a methodology for quantifying the side channel signal created by single instruction differences in a computer programs, (2) a method for identifying existing signals within computing devices which are unintentionally amplitude modulated by program activity, (3) a method for profiling computer programs via EM emanations with zero hardware and software overhead, and (4) a method for detecting the presence of unknown code during executions of a known computer program using EM emanations alone at a distance of 3 meters. 
+
+\end{summary}
+\end{preliminary}
+
+%%
+% What is purpose of introduction or other sections?
+\chapter{Introduction}
+\input{introduction}
+
+\chapter{Background}
+\label{sec:literature_survey}
+\input{background}
+
+\chapter{A Practical Methodology for Measuring the Side-Channel Signal Available to the Attacker for Instruction-Level Events}
+\label{sec:savat}
+
+\section{Overview}
+\input{savat-overview}
+
+\section{The \SAVAT Metric}
+\label{savat-metric}
+\input{savat-metric}
+
+\section{Methodology for Measuring SAVAT in Real Systems}
+\label{sec:methodology}
+\input{savat-methodology}
+
+\section{Experimental Setup}
+\label{sec:setup}
+\input{savat-expsetup}
+
+\section{Experimental Results}
+This section presents the following SAVAT experimental measurement results:
+\begin{enumerate}
+\item A case study using SAVAT to compare and contrast EM emanations from several laptops and a desktop using a 20cm loop antenna
+\item A comparison of SAVAT across a laptop, desktop, and FPGA using a 4cm coil antenna
+\item Measurements characterizing SAVAT's reliability and repeatability
+\end{enumerate}
+
+\subsection{SAVAT Laptop and Desktop Measurements using a 20 cm Loop Antenna}
+\label{savat-20cm}
+\input{savat-20cm-loop-table-measurements}
+
+\subsection{SAVAT Laptop, Desktop, and FPGA Comparison Measurements}
+\input{savat-4cm-coil-table-measurements}
+
+\subsection{Characterization of SAVAT Reliability and Repeatability}
+\label{savat-characterization}
+\input{savat-characterization}
+
+\section{Summary}
+\input{savat-summary}
+
+%\section{SAVAT EM vs Power}
+%\input{savat-em-vs-power}
+
+\chapter{FASE: Finding Amplitude-modulated Side-channel Emanations}
+\label{sec:fase}
+\section{Overview}
+\input{fase-overview}
+
+\section{Unintentional AM Carriers in Computer Systems}
+\label{sec:fase-am-devices}
+\input{fase-am-devices}
+
+\section{Methodology for FASE}
+\label{sec:fase-methodology}
+\input{fase-methodology}
+
+\section{Experimental Setup}
+\label{sec:fase-setup}
+\input{fase-expsetup}
+
+\section{Experimental Results}
+\label{sec:fase-results}
+\input{fase-expresults}
+
+\section{Automating FASE}
+\label{sec:fase-automated}
+\input{fase-automated}
+
+\section{Summary}
+\input{fase-summary}
+
+\chapter{ZOP: Zero-Overhead Profiling via EM Emanations}
+\label{zop}
+\label{sec:zop}
+
+\section{Overview}
+\input{zop-intro}
+
+\section{Relating Time Domain EM Emanations to Program Behavior}
+\label{zop-background}
+\input{zop-background}
+
+\section{The ZOP Approach }
+\label{sec:approach}
+\input{zop-approach}
+
+\section{Experimental Results}
+\label{sec:evaluation}
+\input{zop-expresults}
+
+\section{Summary}
+\input{zop-summary}
+
+\chapter{Detection of Unknown Code on Internet of Things Devices at a Distance}
+\label{sec:malware_detect}
+
+\section{Overview}
+\label{malware-dist-overview}
+\input{malware-dist-overview}
+
+% edit distance, pic32
+\input{malware-dist-props}
+
+\section{Quantifying Signal Quality as a Function of Antenna, Frequency, and Distance}
+\label{malware-dist-snr}
+\input{malware-dist-snr}
+
+\section{Detecting Unknown Code at a Distance}
+\label{malware-dist-detect}
+\input{malware-dist-detect}
+
+\section{Summary}
+\label{malware-dist-summary}
+\input{malware-dist-summary}
+
+\chapter{Research Contributions and Future Work}
+\label{conclusions}
+\input{conclusions}
+
+\appendix
+\label{appendix}
+\input{savat-appendix}
+
+%\chapter{Some Ancillary Stuff}
+
+\begin{postliminary}
+  \references
+  \begin{comment}
+    \postfacesection{Index}{%
+      %%             ... generate an index here
+      %%         look into gatech-thesis-index.sty
+    }
+  \end{comment}
+  \begin{vita}
+    Robert Callan grew up in New Jersey, received a B.Sc. in Electrical Engineering from University of Pennsylvania in 2007, and a M.Sc. in Electrical Engineering from University of Southern California in 2008. From 2008 to 2012 he characterized high speed serdes at IBM in East Fishkill, New York and in San Jose, California. From 2012 to 2013 he characterized serdes at Altera in San Jose, California.
+    
+    Since 2013, he has pursued a Ph.D. degree Electrical Engineering in the School of Electrical and Computer Engineering at the Georgia Institute of Technology and has worked as a Graduate Research Assistant in the Electromagnetics and Computing and Computing lab. His work has focused on analyzing software using unintentional emanations from computing devices. 
+  \end{vita}
+\end{postliminary}
+
+
+\begin{comment}
+    This is the abstract that must be turned in as hard copy to the
+    thesis office to meet the UMI requirements. It should \emph{not} be
+    included when submitting your ETD. Comment out the abstract
+    environment before submitting. It is recommended that you simply
+    copy and paste the text you put in the summary environment into this
+    environment. The title, your name, the page count, and your
+    advisor's name will all be generated automatically.
+
+\begin{abstract}
+This thesis develops methods to identify, quantify, and use information leaked in Electromagnetic (EM) emanations from a broad range of computing devices in a general (\ie not application specific) way by synthesizing techniques from the fields of electromagnetics, computer architecture, and software engineering. Computers emit EM radiation (emanations) as a side effect of the voltage and current variations required to perform computation. Electromagnetic Compatibility (EMC) research does systematically characterize and analyze such EM emanations, but EMC testing only identifies and quantifies EM emanations for the purpose of designing and testing computing systems to ensure emissions don't interfere with communications signals or other devices. Therefore EMC ignores any information embedded in the emissions and treats all emanations as unwanted ``noise'' whose level must be minimized. Until recently, the study of information embedded (\ie leaked) in this EM noise was limited to the leakage of sensitive information for security applications such as cryptoanalysis. Cryptography researchers have developed techniques that analyze EM emanations to extract secret cryptographic keys from computing devices as the devices perform encryption operations. These techniques generally are ad-hoc and application specific, as the goal is to demonstrate and fix weaknesses in existing cryptographic hardware and software implementations. These weaknesses can often be found without thoroughly understanding their electromagnetic and computer architectural causes. 
+
+Aside from cryptoanalysis, EM emanations provide information about a system's operation that may be useful in other applications. A number of emerging applications make use of EM emanations to extract new types of information from computing devices. For example, EM emanations can be used to determine or verify the execution path through a program for program profiling, debugging, and malware detection. These new applications require a more general approach that can be rapidly and automatically applied to numerous and diverse types of programs and computing devices. This approach requires automatic and systematic identification, quantification, and analysis of information embedded in EM emanations. Toward this goal, our research has developed (1) a methodology for quantifying the side channel signal created by single instruction differences in a computer programs, (2) a method for identifying existing signals within computing devices which are unintentionally amplitude modulated by program activity, (3) a method for profiling computer programs via EM emanations with zero hardware and software overhead, and (4) a method for detecting the presence of unknown code during executions of a known computer program using EM emanations alone at a distance of 3 meters. 
+\end{abstract}
+\end{comment}
+
+
+\end{document}

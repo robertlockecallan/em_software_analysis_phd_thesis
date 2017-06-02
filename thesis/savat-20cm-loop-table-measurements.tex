@@ -1,0 +1,114 @@
+
+In this section, we perform a case study where we measure the EM side channel SAVAT for all possible pairings of 11 instructions selected from the x86 instruction set, on three different laptop systems and one desktop system. We demonstrate our methodology on EM side channel emanations because such signals are generally very weak and can be measured non-destructively using measurement instruments available in our lab. The results of the case study confirm the intuitive expectations that (1) off-chip accesses (cache misses that go to main memory) vs on-chip activity have a high SAVAT  and that (2) instructions with similar activity (e.g. ADD and SUB) have a very low mutual SAVAT. However, we also find that, for attacks from shorter distances, cache hits in large caches are also easily distinguished from other operations - just as easily as off-chip memory accesses are, and that among arithmetic instructions, execution of an integer divide instruction is by far the easiest to distinguish.
+
+We measure SAVAT between each pair of instructions resulting in an $11 \times 11$ table, including the 11 diagonal entries where the A and B instructions are the same. Each entry in this table is the SAVAT between the A instruction (row) and B instruction (column). We measure each table 10 times over multiple days and take the mean to minimize the impact of changes in radio signal interference, room temperature, and slight differences in antenna position. These measurements were conducted at a distance of $10~{\rm cm}$ with an alternation frequency of $80~{\rm kHz}$.
+%Each entry in this table is the mean for a set of 10 measurements where the A instruction is given by the row and the B instruction is given by the column. 
+
+The matrix for the Lenovo X61 laptop is shown in Table~\ref{fig:savat-20cm-lx61}. Note that these values are extremely small - they are in zepto-joules (1zJ = $10^{-21}$J)! This indicates that one occurrence of a single-instruction difference would probably not be sufficient for the attacker to decide which of the two instructions was executed -- many repetitions of the same instruction, or many instructions worth of difference will be needed. Unfortunately, repetition is common for some kinds of sensitive data, e.g. a cryptographic key can be reused many times while encrypting a long stream of data.
+%In other words, some instruction pairs are much easier for attackers to disambiguate than others.
+% not discriminating individual instructions in realtime
+The SAVAT tables for the other laptops and desktops listed in Table~\ref{pc_specs} are shown in Tables~\ref{fig:savat-20cm-p3}, \ref{fig:savat-20cm-hpamd}, and \ref{fig:savat-20cm-d7010}. 
+
+\begin{table}[htb]
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\setlength\extrarowheight{1pt}
+\caption{SAVAT values (in zepto Joules) for the Lenovo X61 laptop.}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|} \hline
+& \textbf{LDM} & \textbf{STM} & \textbf{LDL2} & \textbf{STL2} & \textbf{LDL1} & \textbf{STL1} & \textbf{NOI} & \textbf{ADD} & \textbf{SUB} & \textbf{MUL} & \textbf{DIV}
+\\ \hhline{|=||=|=|=|=|=|=|=|=|=|=|=|}
+\textbf{LDM} &  {20} &  {32} &  {88} &  {112} &  {82} &  {82} &  {87} &  {84} &  {84} &  {85} &  {150} \\ \hline
+\textbf{STM} &  {31} &  {38} &  {82} &  {120} &  {39} &  {45} &  {42} &  {41} &  {41} &  {41} &  {77} \\ \hline
+\textbf{LDL2} &  {93} &  {82} &  {2} &  {4} &  {82} &  {83} &  {86} &  {86} &  {85} &  {84} &  {104} \\ \hline
+\textbf{STL2} &  {115} &  {121} &  {4} &  {3} &  {104} &  {107} &  {111} &  {111} &  {108} &  {108} &  {163} \\ \hline
+\textbf{LDL1} &  {81} &  {39} &  {73} &  {105} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {6} \\ \hline
+\textbf{STL1} &  {80} &  {46} &  {82} &  {107} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {5} \\ \hline
+\textbf{NOI} &  {84} &  {42} &  {87} &  {114} &  {3} &  {2} &  {2} &  {2} &  {2} &  {2} &  {4} \\ \hline
+\textbf{ADD} &  {83} &  {41} &  {87} &  {111} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {5} \\ \hline
+\textbf{SUB} &  {85} &  {40} &  {85} &  {110} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {5} \\ \hline
+\textbf{MUL} &  {83} &  {41} &  {85} &  {111} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {5} \\ \hline
+\textbf{DIV} &  {152} &  {78} &  {103} &  {164} &  {6} &  {5} &  {4} &  {5} &  {5} &  {5} &  {4} \\ \hline
+\end{tabular}
+\label{fig:savat-20cm-lx61}
+\end{table}
+
+\begin{table}[htb]
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\setlength\extrarowheight{1pt}
+\caption{SAVAT values (in zepto Joules) for the DELL Latitude C610 laptop.}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|} \hline
+& \textbf{LDM} & \textbf{STM} & \textbf{LDL2} & \textbf{STL2} & \textbf{LDL1} & \textbf{STL1} & \textbf{NOI} & \textbf{ADD} & \textbf{SUB} & \textbf{MUL} & \textbf{DIV}
+\\ \hhline{|=||=|=|=|=|=|=|=|=|=|=|=|}
+\textbf{LDM} &  {21} &  {416} &  {207} &  {252} &  {133} &  {140} &  {103} &  {124} &  {128} &  {127} &  {85} \\ \hline
+\textbf{STM} &  {334} &  {184} &  {185} &  {224} &  {131} &  {126} &  {92} &  {133} &  {136} &  {134} &  {69} \\ \hline
+\textbf{LDL2} &  {212} &  {169} &  {2} &  {3} &  {6} &  {6} &  {10} &  {9} &  {9} &  {11} &  {84} \\ \hline
+\textbf{STL2} &  {246} &  {188} &  {3} &  {2} &  {10} &  {10} &  {16} &  {15} &  {14} &  {17} &  {109} \\ \hline
+\textbf{LDL1} &  {146} &  {122} &  {5} &  {10} &  {2} &  {2} &  {2} &  {2} &  {2} &  {3} &  {45} \\ \hline
+\textbf{STL1} &  {145} &  {110} &  {5} &  {10} &  {2} &  {2} &  {3} &  {2} &  {2} &  {3} &  {45} \\ \hline
+\textbf{NOI} &  {138} &  {137} &  {6} &  {11} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {39} \\ \hline
+\textbf{ADD} &  {131} &  {125} &  {8} &  {15} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {38} \\ \hline
+\textbf{SUB} &  {134} &  {128} &  {7} &  {13} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {39} \\ \hline
+\textbf{MUL} &  {137} &  {128} &  {8} &  {15} &  {2} &  {2} &  {2} &  {2} &  {2} &  {2} &  {36} \\ \hline
+\textbf{DIV} &  {90} &  {62} &  {85} &  {108} &  {44} &  {45} &  {29} &  {48} &  {50} &  {40} &  {9} \\ \hline
+\end{tabular}
+\label{fig:savat-20cm-p3}
+\end{table}
+
+\begin{table}[htb]
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\setlength\extrarowheight{1pt}
+\caption{SAVAT values (in zepto Joules) for the HP Pavilion tx2000 laptop.}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|} \hline
+& \textbf{LDM} & \textbf{STM} & \textbf{LDL2} & \textbf{STL2} & \textbf{LDL1} & \textbf{STL1} & \textbf{NOI} & \textbf{ADD} & \textbf{SUB} & \textbf{MUL} & \textbf{DIV}
+\\ \hhline{|=||=|=|=|=|=|=|=|=|=|=|=|}
+\textbf{LDM} &  {316} &  {1402} &  {479} &  {180} &  {143} &  {334} &  {302} &  {352} &  {352} &  {200} &  {1799} \\ \hline
+\textbf{STM} &  {1401} &  {226} &  {1252} &  {151} &  {677} &  {694} &  {673} &  {614} &  {623} &  {612} &  {3215} \\ \hline
+\textbf{LDL2} &  {647} &  {1391} &  {44} &  {40} &  {34} &  {33} &  {34} &  {34} &  {30} &  {32} &  {185} \\ \hline
+\textbf{STL2} &  {671} &  {1447} &  {58} &  {48} &  {32} &  {32} &  {32} &  {33} &  {34} &  {33} &  {214} \\ \hline
+\textbf{LDL1} &  {382} &  {802} &  {41} &  {35} &  {21} &  {22} &  {19} &  {21} &  {21} &  {22} &  {186} \\ \hline
+\textbf{STL1} &  {391} &  {513} &  {41} &  {35} &  {21} &  {21} &  {19} &  {21} &  {21} &  {21} &  {190} \\ \hline
+\textbf{NOI} &  {137} &  {740} &  {44} &  {37} &  {20} &  {19} &  {17} &  {19} &  {20} &  {19} &  {154} \\ \hline
+\textbf{ADD} &  {387} &  {749} &  {43} &  {34} &  {21} &  {21} &  {19} &  {21} &  {21} &  {21} &  {193} \\ \hline
+\textbf{SUB} &  {382} &  {760} &  {44} &  {35} &  {21} &  {21} &  {19} &  {22} &  {21} &  {21} &  {187} \\ \hline
+\textbf{MUL} &  {382} &  {765} &  {42} &  {37} &  {22} &  {21} &  {20} &  {22} &  {22} &  {21} &  {182} \\ \hline
+\textbf{DIV} &  {2089} &  {1548} &  {303} &  {206} &  {195} &  {199} &  {164} &  {190} &  {194} &  {183} &  {432} \\ \hline
+
+\end{tabular}
+\label{fig:savat-20cm-hpamd}
+\end{table}
+   
+\begin{table}[htb]
+\scriptsize
+\setlength{\tabcolsep}{2.3pt}
+\setlength\extrarowheight{1pt}
+\caption{SAVAT values (in zepto Joules) for the Dell Optiplex 7010 desktop PC.}
+\begin{tabular}{|c||c|c|c|c|c|c|c|c|c|c|c|} \hline
+& \textbf{LDM} & \textbf{STM} & \textbf{LDL2} & \textbf{STL2} & \textbf{LDL1} & \textbf{STL1} & \textbf{NOI} & \textbf{ADD} & \textbf{SUB} & \textbf{MUL} & \textbf{DIV}
+\\ \hhline{|=||=|=|=|=|=|=|=|=|=|=|=|}
+\textbf{LDM} &  {319} &  {695} &  {586} &  {1559} &  {438} &  {447} &  {500} &  {481} &  {479} &  {446} &  {1669} \\ \hline
+\textbf{STM} &  {621} &  {816} &  {1400} &  {1853} &  {564} &  {613} &  {598} &  {600} &  {599} &  {612} &  {1738} \\ \hline
+\textbf{LDL2} &  {544} &  {1851} &  {98} &  {130} &  {175} &  {203} &  {309} &  {237} &  {233} &  {198} &  {902} \\ \hline
+\textbf{STL2} &  {1376} &  {1712} &  {126} &  {112} &  {140} &  {154} &  {179} &  {195} &  {197} &  {210} &  {709} \\ \hline
+\textbf{LDL1} &  {664} &  {685} &  {281} &  {174} &  {83} &  {79} &  {74} &  {76} &  {77} &  {80} &  {328} \\ \hline
+\textbf{STL1} &  {665} &  {724} &  {310} &  {195} &  {88} &  {84} &  {74} &  {80} &  {79} &  {76} &  {293} \\ \hline
+\textbf{NOI} &  {637} &  {637} &  {326} &  {233} &  {83} &  {93} &  {71} &  {91} &  {84} &  {87} &  {259} \\ \hline
+\textbf{ADD} &  {708} &  {702} &  {345} &  {231} &  {102} &  {92} &  {80} &  {79} &  {83} &  {78} &  {263} \\ \hline
+\textbf{SUB} &  {687} &  {692} &  {296} &  {242} &  {94} &  {98} &  {80} &  {85} &  {82} &  {84} &  {289} \\ \hline
+\textbf{MUL} &  {686} &  {699} &  {309} &  {239} &  {89} &  {95} &  {84} &  {82} &  {96} &  {80} &  {272} \\ \hline
+\textbf{DIV} &  {1464} &  {1337} &  {816} &  {466} &  {240} &  {249} &  {237} &  {249} &  {251} &  {290} &  {234} \\ \hline
+
+\end{tabular}
+\label{fig:savat-20cm-d7010}
+\end{table}
+
+Several SAVAT properties can be observed in these tables that confirm some assumptions about our measurement methodology. First, the SAVAT between an instruction and itself (i.e. A/A) should theoretically be zero, assuming no noise or signal variation. The A/A SAVAT values, the entries along the table's diagonal, are generally the smallest in the table agreeing with theory. This validates the assumption that the largest (i.e. most interesting/dangerous) measured SAVAT values are predominantly a result of actual differences among instructions under consideration, and not of the surrounding code that should be the same for all instructions under test. Next, observe that pairs of instructions that share common circuitry tend to have lower SAVAT values. For example LDM and STM both activate the memory interface and DRAM, LDL2 and STL2 both access the L2 cache, and ADD, SUB, MUL and DIV all use ALUs. Finally, observe that the table is largely symmetric. This is consistent with the fact that the swapping the order of instruction A and B should have no effect according to theory. This property is further characterized in Section~\ref{savat-characterization}. 
+
+These tables also show that there are large variations in SAVAT among these instruction pairs -- this means that some instruction pairs are much easier for attackers to disambiguate than others. We observe four groups of instructions/events that have low intra-group and high inter-group SAVATs: The off-chip access group (LDM and STM), the L2 hit group (LDL2 and STL2), an Arithmetic/L1 group that includes ADD, SUB, MUL, NOI, and also LDL1 and STL1, and a group that only contains the DIV instruction. We can see that the SAVAT between instructions in the Arithmetic/L1 group is similar to the same-instruction measurement (e.g. ADD/ADD), i.e. it is very difficult for attackers to distinguish between instructions in this group. Although their functionality is quite different, L1 cache accesses are also very difficult to distinguish from ADD/SUB/MUL arithmetic instructions. As expected, L2 accesses and main-memory accesses are much easier to distinguish from other instructions. Note that for some devices an L2 store hit is noticeably easier to distinguish from other instructions than it is an L2 load hit. This might be caused by the fact that we cannot create a sustained string of L1 write misses without also creating dirty replacements from L1 to L2, i.e. each STL2 instruction creates two L2 accesses - one to fetch the block from the L2 cache into L1, and later another that writes back the dirty block from L1 to L2. So the higher SAVAT values for STL2 might be attributable to write-back activity caused by these instructions. %If that is true, however, it is surprising that STM does not have higher SAVAT values than LDM, even though it includes write-back activity that LDM does not have.
+
+Surprisingly, the DIV instruction generally has noticeably higher SAVAT values than ADD, SUB, and MUL. It is also surprising that some of the off-chip memory accesses and L2 hits have similar SAVAT, i.e. the task of distinguishing between LDM and ADD using EM emanations is similar in difficulty to the task of distinguishing between LDL2 and ADD. This is contrary to the intuitive expectation that off-chip accesses should create stronger emanations because they toggle long off-chip wires that can act as better transmission antennae for EM emanations. Interestingly, however, some off-chip memory accesses do have an even higher SAVAT when paired with L2 hits than when paired with other instructions. One possible explanation for this is that e.g. LDM creates an EM field that allows it to be distinguished from e.g. an ADD, and that LDL2 creates an EM field that is similarly distinguishable from an ADD, but the fields for LDM and LDL2 are also different from each other and very easy to distinguish.
+
+For computer architects who desire to reduce the potential for EM side channel attacks on their processors, these results indicate that the path of least resistance for the attackers is in code that uses off-chip accesses, L2 cache accesses, and possibly DIV instructions in ways that depend on sensitive data, so the architects' focus should be on making execution of these instructions less EM-noisy, e.g. through limited use of compensating-activity techniques. For programmers, these results confirm what programmers should already know from work on other side channels - in code that processes sensitive data, special care should be taken to avoid situations where a memory access instruction might have an L2 hit or miss depending on the value of some sensitive data item. Code that does not have data-dependent variation in cache hit/miss behavior is considerably less vulnerable to EM side channel attacks, and the most worrisome situation in that code would be one where a DIV instruction is executed or not depending on sensitive data, e.g. when a control flow decision based on sensitive data selects between a path that includes a DIV instruction and another that does not.
+
+Table~\ref{fig:savat-20cm-p3} show the results for a laptop with a Pentium IIIM processor. This processor is several generations older than the other devices. Some of the trends in this table are similar - the ADD/SUB/MUL instructions are very difficult to distinguish from each other, the SAVAT for pairings of L2 accesses and arithmetic instructions is higher (and similar to what we saw for the Lenovo X61 laptop), and the DIV instruction has higher SAVAT than other arithmetic instructions. However, in this laptop the DIV instruction is {\em much} easier to distinguish from other arithmetic instructions - the ADD/DIV SAVAT is an order of magnitude higher than the ADD/MUL SAVAT. Similarly, off-chip accesses here have much higher SAVAT values than do L2 accesses. Overall, it seems that the high-SAVAT problem of DIV and off-chip load/store instructions in the Pentium IIIM processor was reduced when designing Core 2 (released 7 years after the Pentium IIIM). It is likely that the reason for this improvement was not a deliberate effort to alleviate EM side channel vulnerabilities -- reduction in EM leakage might be a side effect of a reduction in operating voltages, shorter wire lengths in the technology-shrunk divider, and signaling optimizations that save power by reducing wire toggling at the processor-memory interface.
